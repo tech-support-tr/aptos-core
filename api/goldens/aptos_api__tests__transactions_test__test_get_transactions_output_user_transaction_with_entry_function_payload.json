@@ -23,7 +23,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -32,7 +32,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -82,7 +82,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "1",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -111,7 +111,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -132,16 +132,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -171,7 +162,7 @@
               "guid": {
                 "id": {
                   "addr": "0x34bf7e2d17674feb234371a7ea58efd715f0e56ba20ebf13789480d9d643afaf",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -181,7 +172,7 @@
               "guid": {
                 "id": {
                   "addr": "0x34bf7e2d17674feb234371a7ea58efd715f0e56ba20ebf13789480d9d643afaf",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -205,16 +196,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0x34bf7e2d17674feb234371a7ea58efd715f0e56ba20ebf13789480d9d643afaf",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []

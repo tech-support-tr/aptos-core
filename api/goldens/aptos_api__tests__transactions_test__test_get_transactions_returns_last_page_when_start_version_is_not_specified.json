@@ -37,7 +37,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -46,7 +46,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -87,7 +87,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "13",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -116,7 +116,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -137,16 +137,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -176,7 +167,7 @@
               "guid": {
                 "id": {
                   "addr": "0x48a951fe0ed12b29517867e00a3a09da55fcf859497b3f04bbed911cb75669c9",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -186,7 +177,7 @@
               "guid": {
                 "id": {
                   "addr": "0x48a951fe0ed12b29517867e00a3a09da55fcf859497b3f04bbed911cb75669c9",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -210,16 +201,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0x48a951fe0ed12b29517867e00a3a09da55fcf859497b3f04bbed911cb75669c9",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -309,7 +291,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -318,7 +300,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -359,7 +341,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "14",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -388,7 +370,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -409,16 +391,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -448,7 +421,7 @@
               "guid": {
                 "id": {
                   "addr": "0x95f70f0272707f73ce63f9b09497324a7b2c9118d5d5fb22cb373efd916a681",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -458,7 +431,7 @@
               "guid": {
                 "id": {
                   "addr": "0x95f70f0272707f73ce63f9b09497324a7b2c9118d5d5fb22cb373efd916a681",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -482,16 +455,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0x95f70f0272707f73ce63f9b09497324a7b2c9118d5d5fb22cb373efd916a681",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -581,7 +545,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -590,7 +554,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -631,7 +595,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "15",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -660,7 +624,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -681,16 +645,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -720,7 +675,7 @@
               "guid": {
                 "id": {
                   "addr": "0x4c989e245d6ce3f3735edb8ef9f84c34d5e6f0991bea502b05cd1ea74d327a22",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -730,7 +685,7 @@
               "guid": {
                 "id": {
                   "addr": "0x4c989e245d6ce3f3735edb8ef9f84c34d5e6f0991bea502b05cd1ea74d327a22",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -754,16 +709,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0x4c989e245d6ce3f3735edb8ef9f84c34d5e6f0991bea502b05cd1ea74d327a22",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -853,7 +799,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -862,7 +808,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -903,7 +849,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "16",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -932,7 +878,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -953,16 +899,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -992,7 +929,7 @@
               "guid": {
                 "id": {
                   "addr": "0x46925daed0a8767bb9437ccccfdf31a1d349a05659710ca0ebe6205d0e5d737e",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -1002,7 +939,7 @@
               "guid": {
                 "id": {
                   "addr": "0x46925daed0a8767bb9437ccccfdf31a1d349a05659710ca0ebe6205d0e5d737e",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -1026,16 +963,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0x46925daed0a8767bb9437ccccfdf31a1d349a05659710ca0ebe6205d0e5d737e",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -1125,7 +1053,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -1134,7 +1062,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -1175,7 +1103,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "17",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -1204,7 +1132,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -1225,16 +1153,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -1264,7 +1183,7 @@
               "guid": {
                 "id": {
                   "addr": "0xfcad780f86d4ee8a3a200bb9289f77eb824bf1d6c155c8d007fc128bfbc33e06",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -1274,7 +1193,7 @@
               "guid": {
                 "id": {
                   "addr": "0xfcad780f86d4ee8a3a200bb9289f77eb824bf1d6c155c8d007fc128bfbc33e06",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -1298,16 +1217,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xfcad780f86d4ee8a3a200bb9289f77eb824bf1d6c155c8d007fc128bfbc33e06",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -1397,7 +1307,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -1406,7 +1316,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -1447,7 +1357,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "18",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -1476,7 +1386,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -1497,16 +1407,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -1536,7 +1437,7 @@
               "guid": {
                 "id": {
                   "addr": "0x99acce340661e0c847ca95ff58ced5f474bc30ca7972106e6a90055c1bdeb26",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -1546,7 +1447,7 @@
               "guid": {
                 "id": {
                   "addr": "0x99acce340661e0c847ca95ff58ced5f474bc30ca7972106e6a90055c1bdeb26",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -1570,16 +1471,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0x99acce340661e0c847ca95ff58ced5f474bc30ca7972106e6a90055c1bdeb26",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -1669,7 +1561,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -1678,7 +1570,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -1719,7 +1611,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "19",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -1748,7 +1640,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -1769,16 +1661,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -1808,7 +1691,7 @@
               "guid": {
                 "id": {
                   "addr": "0xe9be740413c5f028e58ca77e0540355874c210b49bcd8a75db8880a7ac3273cd",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -1818,7 +1701,7 @@
               "guid": {
                 "id": {
                   "addr": "0xe9be740413c5f028e58ca77e0540355874c210b49bcd8a75db8880a7ac3273cd",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -1842,16 +1725,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xe9be740413c5f028e58ca77e0540355874c210b49bcd8a75db8880a7ac3273cd",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -1941,7 +1815,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             },
@@ -1950,7 +1824,7 @@
               "guid": {
                 "id": {
                   "addr": "0x1",
-                  "creation_num": "4"
+                  "creation_num": "3"
                 }
               }
             }
@@ -1991,7 +1865,7 @@
     "round": "1",
     "events": [
       {
-        "key": "0x03000000000000000000000000000000000000000000000000000000000000000000000000000001",
+        "key": "0x02000000000000000000000000000000000000000000000000000000000000000000000000000001",
         "sequence_number": "20",
         "type": "0x1::block::NewBlockEvent",
         "data": {
@@ -2020,7 +1894,7 @@
     "state_change_hash": "",
     "event_root_hash": "",
     "state_checkpoint_hash": null,
-    "gas_used": "50",
+    "gas_used": "45",
     "success": true,
     "vm_status": "Executed successfully",
     "accumulator_root_hash": "",
@@ -2041,16 +1915,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0xa550c18",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
@@ -2080,7 +1945,7 @@
               "guid": {
                 "id": {
                   "addr": "0x626d590a97d6b59c93711a3cdc7aea92eca7fc5c3615084f43394791f1d6d300",
-                  "creation_num": "2"
+                  "creation_num": "1"
                 }
               }
             },
@@ -2090,7 +1955,7 @@
               "guid": {
                 "id": {
                   "addr": "0x626d590a97d6b59c93711a3cdc7aea92eca7fc5c3615084f43394791f1d6d300",
-                  "creation_num": "3"
+                  "creation_num": "2"
                 }
               }
             }
@@ -2114,16 +1979,7 @@
                 }
               }
             },
-            "guid_creation_num": "4",
-            "key_rotation_events": {
-              "counter": "0",
-              "guid": {
-                "id": {
-                  "addr": "0x626d590a97d6b59c93711a3cdc7aea92eca7fc5c3615084f43394791f1d6d300",
-                  "creation_num": "1"
-                }
-              }
-            },
+            "guid_creation_num": "3",
             "rotation_capability_offer": {
               "for": {
                 "vec": []
