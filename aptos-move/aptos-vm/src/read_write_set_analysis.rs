@@ -22,7 +22,6 @@ use move_deps::{
     },
     read_write_set_dynamic::{ConcretizedFormals, NormalizedReadWriteSetAnalysis},
 };
-use once_cell::sync::Lazy;
 use std::ops::Deref;
 
 pub struct ReadWriteSetAnalysis<'a, R: ModuleResolver> {
@@ -31,14 +30,6 @@ pub struct ReadWriteSetAnalysis<'a, R: ModuleResolver> {
     blockchain_view: &'a R,
 }
 
-const TRANSACTION_VALIDATION_MODULE_NAME: &IdentStr = ident_str!("transaction_validation");
-static TRANSACTION_VALIDATION: Lazy<ModuleId> = Lazy::new(|| {
-    ModuleId::new(
-        account_config::CORE_CODE_ADDRESS,
-        TRANSACTION_VALIDATION_MODULE_NAME.to_owned(),
-    )
-});
-
 const TRANSACTION_FEES_MODULE_NAME: &IdentStr = ident_str!("transaction_fee");
 const TRANSACTION_FEES_NAME: &IdentStr = ident_str!("TransactionFee");
 
@@ -46,11 +37,11 @@ pub fn add_on_functions_list() -> Vec<(ModuleId, Identifier)> {
     vec![
         (BLOCK_MODULE.clone(), BLOCK_PROLOGUE.to_owned()),
         (
-            TRANSACTION_VALIDATION.clone(),
+            account_config::constants::APTOS_ACCOUNT_MODULE.clone(),
             SCRIPT_PROLOGUE_NAME.to_owned(),
         ),
         (
-            TRANSACTION_VALIDATION.clone(),
+            account_config::constants::APTOS_ACCOUNT_MODULE.clone(),
             USER_EPILOGUE_NAME.to_owned(),
         ),
     ]
@@ -208,7 +199,7 @@ impl<'a, R: MoveResolverExt> ReadWriteSetAnalysis<'a, R> {
     ) -> Result<(Vec<ResourceKey>, Vec<ResourceKey>)> {
         let signers = vec![tx.sender()];
         let prologue_accesses = self.get_partially_concretized_summary(
-            &TRANSACTION_VALIDATION,
+            &account_config::constants::APTOS_ACCOUNT_MODULE,
             SCRIPT_PROLOGUE_NAME,
             &signers,
             &serialize_values(&vec![
@@ -225,7 +216,7 @@ impl<'a, R: MoveResolverExt> ReadWriteSetAnalysis<'a, R> {
         )?;
 
         let epilogue_accesses = self.get_partially_concretized_summary(
-            &TRANSACTION_VALIDATION,
+            &account_config::constants::APTOS_ACCOUNT_MODULE,
             USER_EPILOGUE_NAME,
             &signers,
             &serialize_values(&vec![

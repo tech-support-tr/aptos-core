@@ -14,10 +14,6 @@ pub fn account_module_identifier() -> Identifier {
     ident_str!("account").into()
 }
 
-pub fn aptos_account_module_identifier() -> Identifier {
-    ident_str!("aptos_account").into()
-}
-
 pub fn coin_module_identifier() -> Identifier {
     ident_str!("coin").into()
 }

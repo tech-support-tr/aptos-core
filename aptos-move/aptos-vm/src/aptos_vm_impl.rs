@@ -19,8 +19,8 @@ use aptos_logger::prelude::*;
 use aptos_state_view::StateView;
 use aptos_types::transaction::AbortInfo;
 use aptos_types::{
-    account_config::{TransactionValidation, APTOS_TRANSACTION_VALIDATION, CORE_CODE_ADDRESS},
-    on_chain_config::{GasSchedule, OnChainConfig, Version},
+    account_config::{ChainSpecificAccountInfo, APTOS_CHAIN_INFO, CORE_CODE_ADDRESS},
+    on_chain_config::{GasSchedule, OnChainConfig, Version, APTOS_VERSION_3},
     transaction::{ExecutionStatus, TransactionOutput, TransactionStatus},
     vm_status::{StatusCode, VMStatus},
 };
@@ -46,7 +46,7 @@ pub struct AptosVMImpl {
     move_vm: Arc<MoveVmExt>,
     gas_params: Option<AptosGasParameters>,
     version: Option<Version>,
-    transaction_validation: Option<TransactionValidation>,
+    chain_account_info: Option<ChainSpecificAccountInfo>,
     metadata_cache: DashMap<ModuleId, Option<RuntimeModuleMetadata>>,
 }
 
@@ -77,11 +77,11 @@ impl AptosVMImpl {
             move_vm: Arc::new(inner),
             gas_params,
             version: None,
-            transaction_validation: None,
+            chain_account_info: None,
             metadata_cache: Default::default(),
         };
         vm.version = Version::fetch_config(&storage);
-        vm.transaction_validation = Self::get_transaction_validation(&StorageAdapter::new(state));
+        vm.chain_account_info = Self::get_chain_specific_account_info(&StorageAdapter::new(state));
         vm
     }
 
@@ -98,7 +98,7 @@ impl AptosVMImpl {
             move_vm: Arc::new(inner),
             gas_params: Some(gas_params),
             version: Some(version),
-            transaction_validation: None,
+            chain_account_info: None,
             metadata_cache: Default::default(),
         }
     }
@@ -108,21 +108,21 @@ impl AptosVMImpl {
         AptosVMInternals(self)
     }
 
-    pub(crate) fn transaction_validation(&self) -> &TransactionValidation {
-        self.transaction_validation
+    pub(crate) fn chain_info(&self) -> &ChainSpecificAccountInfo {
+        self.chain_account_info
             .as_ref()
-            .unwrap_or(&APTOS_TRANSACTION_VALIDATION)
+            .unwrap_or(&APTOS_CHAIN_INFO)
     }
 
     // TODO: Move this to an on-chain config once those are a part of the core framework
-    fn get_transaction_validation<S: ResourceResolver>(
+    fn get_chain_specific_account_info<S: ResourceResolver>(
         remote_cache: &S,
-    ) -> Option<TransactionValidation> {
+    ) -> Option<ChainSpecificAccountInfo> {
         match remote_cache
-            .get_resource(&CORE_CODE_ADDRESS, &TransactionValidation::struct_tag())
+            .get_resource(&CORE_CODE_ADDRESS, &ChainSpecificAccountInfo::struct_tag())
             .ok()?
         {
-            Some(blob) => bcs::from_bytes::<TransactionValidation>(&blob).ok(),
+            Some(blob) => bcs::from_bytes::<ChainSpecificAccountInfo>(&blob).ok(),
             _ => None,
         }
     }
@@ -238,7 +238,7 @@ impl AptosVMImpl {
         txn_data: &TransactionMetadata,
         log_context: &AdapterLogSchema,
     ) -> Result<(), VMStatus> {
-        let transaction_validation = self.transaction_validation();
+        let chain_specific_info = self.chain_info();
         let txn_sequence_number = txn_data.sequence_number();
         let txn_authentication_key = txn_data.authentication_key().to_vec();
         let txn_gas_price = txn_data.gas_unit_price();
@@ -251,7 +251,7 @@ impl AptosVMImpl {
             .iter()
             .map(|auth_key| MoveValue::vector_u8(auth_key.to_vec()))
             .collect();
-        let args = if txn_data.is_multi_agent() {
+        let args = if self.get_version()? >= APTOS_VERSION_3 && txn_data.is_multi_agent() {
             vec![
                 MoveValue::Signer(txn_data.sender),
                 MoveValue::U64(txn_sequence_number),
@@ -275,14 +275,15 @@ impl AptosVMImpl {
                 MoveValue::vector_u8(txn_data.script_hash.clone()),
             ]
         };
-        let prologue_function_name = if txn_data.is_multi_agent() {
-            &transaction_validation.multi_agent_prologue_name
-        } else {
-            &transaction_validation.script_prologue_name
-        };
+        let prologue_function_name =
+            if self.get_version()? >= APTOS_VERSION_3 && txn_data.is_multi_agent() {
+                &chain_specific_info.multi_agent_prologue_name
+            } else {
+                &chain_specific_info.script_prologue_name
+            };
         session
             .execute_function_bypass_visibility(
-                &transaction_validation.module_id(),
+                &chain_specific_info.module_id(),
                 prologue_function_name,
                 // TODO: Deprecate this once we remove gas currency on the Move side.
                 vec![],
@@ -291,7 +292,7 @@ impl AptosVMImpl {
             )
             .map(|_return_vals| ())
             .map_err(expect_no_verification_errors)
-            .or_else(|err| convert_prologue_error(transaction_validation, err, log_context))
+            .or_else(|err| convert_prologue_error(chain_specific_info, err, log_context))
     }
 
     /// Run the prologue of a transaction by calling into `MODULE_PROLOGUE_NAME` function stored
@@ -302,7 +303,7 @@ impl AptosVMImpl {
         txn_data: &TransactionMetadata,
         log_context: &AdapterLogSchema,
     ) -> Result<(), VMStatus> {
-        let transaction_validation = self.transaction_validation();
+        let chain_specific_info = self.chain_info();
 
         let txn_sequence_number = txn_data.sequence_number();
         let txn_authentication_key = txn_data.authentication_key();
@@ -313,8 +314,8 @@ impl AptosVMImpl {
         let mut gas_meter = UnmeteredGasMeter;
         session
             .execute_function_bypass_visibility(
-                &transaction_validation.module_id(),
-                &transaction_validation.module_prologue_name,
+                &chain_specific_info.module_id(),
+                &chain_specific_info.module_prologue_name,
                 // TODO: Deprecate this once we remove gas currency on the Move side.
                 vec![],
                 serialize_values(&vec![
@@ -330,7 +331,7 @@ impl AptosVMImpl {
             )
             .map(|_return_vals| ())
             .map_err(expect_no_verification_errors)
-            .or_else(|err| convert_prologue_error(transaction_validation, err, log_context))
+            .or_else(|err| convert_prologue_error(chain_specific_info, err, log_context))
     }
 
     /// Run the epilogue of a transaction by calling into `EPILOGUE_NAME` function stored
@@ -348,14 +349,14 @@ impl AptosVMImpl {
             ))
         });
 
-        let transaction_validation = self.transaction_validation();
+        let chain_specific_info = self.chain_info();
         let txn_sequence_number = txn_data.sequence_number();
         let txn_gas_price = txn_data.gas_unit_price();
         let txn_max_gas_units = txn_data.max_gas_amount();
         session
             .execute_function_bypass_visibility(
-                &transaction_validation.module_id(),
-                &transaction_validation.user_epilogue_name,
+                &chain_specific_info.module_id(),
+                &chain_specific_info.user_epilogue_name,
                 // TODO: Deprecate this once we remove gas currency on the Move side.
                 vec![],
                 serialize_values(&vec![
@@ -369,7 +370,7 @@ impl AptosVMImpl {
             )
             .map(|_return_vals| ())
             .map_err(expect_no_verification_errors)
-            .or_else(|err| convert_epilogue_error(transaction_validation, err, log_context))
+            .or_else(|err| convert_epilogue_error(chain_specific_info, err, log_context))
     }
 
     /// Run the failure epilogue of a transaction by calling into `USER_EPILOGUE_NAME` function
@@ -381,14 +382,14 @@ impl AptosVMImpl {
         txn_data: &TransactionMetadata,
         log_context: &AdapterLogSchema,
     ) -> Result<(), VMStatus> {
-        let transaction_validation = self.transaction_validation();
+        let chain_specific_info = self.chain_info();
         let txn_sequence_number = txn_data.sequence_number();
         let txn_gas_price = txn_data.gas_unit_price();
         let txn_max_gas_units = txn_data.max_gas_amount();
         session
             .execute_function_bypass_visibility(
-                &transaction_validation.module_id(),
-                &transaction_validation.user_epilogue_name,
+                &chain_specific_info.module_id(),
+                &chain_specific_info.user_epilogue_name,
                 // TODO: Deprecate this once we remove gas currency on the Move side.
                 vec![],
                 serialize_values(&vec![
@@ -405,7 +406,7 @@ impl AptosVMImpl {
             .or_else(|e| {
                 expect_only_successful_execution(
                     e,
-                    transaction_validation.user_epilogue_name.as_str(),
+                    chain_specific_info.user_epilogue_name.as_str(),
                     log_context,
                 )
             })
