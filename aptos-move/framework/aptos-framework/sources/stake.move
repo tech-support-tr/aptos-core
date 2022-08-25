@@ -854,7 +854,6 @@ module aptos_framework::stake {
             } else {
                 validator_set.total_joining_power = 0;
             };
-
         } else {
             // Validate that the validator is already part of the validator set.
             let maybe_active_index = find_validator(&validator_set.active_validators, pool_address);
