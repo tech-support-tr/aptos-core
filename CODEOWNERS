@@ -1,11 +1,13 @@
 # **Please** keep this file ordered alphabetically by directory paths!
 /aptos-move/framework/ @davidiw @movekevin @wrwg
+/aptos-move/framework/aptos-framework/sources/account.move @alinush
 /aptos-move/aptos-gas/ @vgao1996
 /aptos-move/aptos-vm/ @davidiw @wrwg @zekun000
 /aptos-move/vm-genesis/ @davidiw @movekevin
 /aptos-move/parallel-executor/ @gelash @zekun000
 /aptos-move/framework/aptos-stdlib/sources/cryptography/ @alinush
 /aptos-move/framework/src/natives/cryptography/ @alinush
+/aptos-move/e2e-tests/src/account.rs @alinush
 # Owners for the `/developer-docs-site` directory and all its subdirectories.
 /developer-docs-site/ @davidiw @rajkaramchedu
 # Owners for the `/crates/aptos-crypto*` directories
@@ -13,6 +15,10 @@
 /crates/aptos-crypto-derive/ @alinush
 # Owners for the `/api` directory and all its subdirectories. And other API related crates
 /api/ @banool @gregnazario
+/api/types/src/transaction.rs @alinush
+/sdk/src/transaction_builder.rs @alinush
+/sdk/src/types.rs @alinush
+/crates/aptos-keygen @alinush
 /crates/aptos-rest-client @banool @gregnazario
 /crates/aptos-open-api @banool @gregnazario
 /crates/aptos-faucet @banool @gregnazario
@@ -36,6 +42,7 @@
 /crates/aptos-rosetta-cli @gregnazario
 # Owners for the `SDKs`
 /ecosystem/typescript/sdk @jjleng @gregnazario @banool
+/ecosystem/typescript/sdk/src/aptos_account.ts @alinush
 /ecosystem/python/sdk @davidiw @gregnazario @banool
 # Owner for token_standard and related tutorials
 /aptos-move/framework/aptos-token @areshand
