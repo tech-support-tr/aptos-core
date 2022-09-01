@@ -34,13 +34,13 @@ class Account:
         account_address = AccountAddress.from_key(private_key.public_key())
         return Account(account_address, private_key)
 
-    def load_key(key: str) -> Account:
-        private_key = ed25519.PrivateKey.from_hex(key)
+    def load_key(self) -> Account:
+        private_key = ed25519.PrivateKey.from_hex(self)
         account_address = AccountAddress.from_key(private_key.public_key())
         return Account(account_address, private_key)
 
-    def load(path: str) -> Account:
-        with open(path) as file:
+    def load(self) -> Account:
+        with open(self) as file:
             data = json.load(file)
         return Account(
             AccountAddress.from_hex(data["account_address"]),

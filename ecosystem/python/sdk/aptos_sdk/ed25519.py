@@ -24,10 +24,10 @@ class PrivateKey:
     def __str__(self):
         return self.hex()
 
-    def from_hex(value: str) -> PrivateKey:
-        if value[0:2] == "0x":
-            value = value[2:]
-        return PrivateKey(SigningKey(bytes.fromhex(value)))
+    def from_hex(self) -> PrivateKey:
+        if self[:2] == "0x":
+            self = self[2:]
+        return PrivateKey(SigningKey(bytes.fromhex(self)))
 
     def hex(self) -> str:
         return f"0x{self.key.encode().hex()}"
@@ -41,8 +41,8 @@ class PrivateKey:
     def sign(self, data: bytes) -> Signature:
         return Signature(self.key.sign(data).signature)
 
-    def deserialize(deserializer: Deserializer) -> PrivateKey:
-        key = deserializer.bytes()
+    def deserialize(self) -> PrivateKey:
+        key = self.bytes()
         if len(key) != PrivateKey.LENGTH:
             raise Exception("Length mismatch")
 
@@ -73,8 +73,8 @@ class PublicKey:
             return False
         return True
 
-    def deserialize(deserializer: Deserializer) -> PublicKey:
-        key = deserializer.bytes()
+    def deserialize(self) -> PublicKey:
+        key = self.bytes()
         if len(key) != PublicKey.LENGTH:
             raise Exception("Length mismatch")
 
@@ -101,8 +101,8 @@ class Signature:
     def data(self) -> bytes:
         return self.signature
 
-    def deserialize(deserializer: Deserializer) -> Signature:
-        signature = deserializer.bytes()
+    def deserialize(self) -> Signature:
+        signature = self.bytes()
         if len(signature) != Signature.LENGTH:
             raise Exception("Length mismatch")
 

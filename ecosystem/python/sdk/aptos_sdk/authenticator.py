@@ -48,15 +48,15 @@ class Authenticator:
     def verify(self, data: bytes) -> bool:
         return self.authenticator.verify(data)
 
-    def deserialize(deserializer: Deserializer) -> Authenticator:
-        variant = deserializer.uleb128()
+    def deserialize(self) -> Authenticator:
+        variant = self.uleb128()
 
         if variant == Authenticator.ED25519:
-            authenticator = Ed25519Authenticator.deserialize(deserializer)
+            authenticator = Ed25519Authenticator.deserialize(self)
         elif variant == Authenticator.MULTI_ED25519:
-            authenticator = MultiEd25519Authenticator.deserialize(deserializer)
+            authenticator = MultiEd25519Authenticator.deserialize(self)
         elif variant == Authenticator.MULTI_AGENT:
-            authenticator = MultiAgentAuthenticator.deserialize(deserializer)
+            authenticator = MultiAgentAuthenticator.deserialize(self)
         else:
             raise Exception("Invalid type")
 
@@ -84,9 +84,9 @@ class Ed25519Authenticator:
     def verify(self, data: bytes) -> bool:
         return self.public_key.verify(data, self.signature)
 
-    def deserialize(deserializer: Deserializer) -> Ed25519Authenticator:
-        key = deserializer.struct(ed25519.PublicKey)
-        signature = deserializer.struct(ed25519.Signature)
+    def deserialize(self) -> Ed25519Authenticator:
+        key = self.struct(ed25519.PublicKey)
+        signature = self.struct(ed25519.Signature)
         return Ed25519Authenticator(key, signature)
 
     def serialize(self, serializer: Serializer):
@@ -116,14 +116,16 @@ class MultiAgentAuthenticator:
         return [x[0] for x in self.secondary_signers]
 
     def verify(self, data: bytes) -> bool:
-        if not self.sender.verify(data):
-            return False
-        return all([x[1].verify(data) for x in self.secondary_signers])
+        return (
+            all(x[1].verify(data) for x in self.secondary_signers)
+            if self.sender.verify(data)
+            else False
+        )
 
-    def deserialize(deserializer: Deserializer) -> MultiAgentAuthenticator:
-        sender = deserializer.struct(Authenticator)
-        secondary_addresses = deserializer.sequence(AccountAddress.deserialize)
-        secondary_authenticators = deserializer.sequence(Authenticator.deserialize)
+    def deserialize(self) -> MultiAgentAuthenticator:
+        sender = self.struct(Authenticator)
+        secondary_addresses = self.sequence(AccountAddress.deserialize)
+        secondary_authenticators = self.sequence(Authenticator.deserialize)
         return MultiAgentAuthenticator(
             sender, list(zip(secondary_addresses, secondary_authenticators))
         )
@@ -141,7 +143,7 @@ class MultiEd25519Authenticator:
     def verify(self, data: bytes) -> bool:
         raise NotImplementedError
 
-    def deserialize(deserializer: Deserializer) -> MultiEd25519Authenticator:
+    def deserialize(self) -> MultiEd25519Authenticator:
         raise NotImplementedError
 
     def serialize(self, serializer: Serializer):

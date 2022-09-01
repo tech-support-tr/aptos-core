@@ -132,28 +132,23 @@ class SpyProcesses(FakeProcesses):
 
 def fake_context(shell=None, filesystem=None, processes=None, time=None) -> ForgeContext:
     return ForgeContext(
-        shell=shell if shell else FakeShell(),
-        filesystem=filesystem if filesystem else FakeFilesystem(),
-        processes=processes if processes else FakeProcesses(),
-        time=time if time else FakeTime(),
-
+        shell=shell or FakeShell(),
+        filesystem=filesystem or FakeFilesystem(),
+        processes=processes or FakeProcesses(),
+        time=time or FakeTime(),
         forge_test_suite="banana",
         forge_runner_duration_secs="123",
-
         reuse_args=[],
         keep_args=[],
         haproxy_args=[],
-
         aws_account_num="123",
         aws_region="banana-east-1",
-
         forge_image_tag="forge_asdf",
         image_tag="asdf",
         upgrade_image_tag="upgrade_asdf",
         forge_namespace="potato",
         forge_cluster_name="tomato",
         forge_blocking=True,
-
         github_actions="false",
         github_job_url="https://banana",
     )
