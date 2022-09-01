@@ -402,11 +402,9 @@ class ForgeResult:
         except Exception as e:
             result.set_state(ForgeState.FAIL)
             result.set_debugging_output(
-                "{}\n{}\n".format(
-                    str(e),
-                    dump_forge_state(context.shell, context.forge_namespace)
-                )
+                f"{str(e)}\n{dump_forge_state(context.shell, context.forge_namespace)}\n"
             )
+
         result._end_time = context.time.now()
         if result.state not in (ForgeState.PASS, ForgeState.FAIL, ForgeState.SKIP):
             raise Exception("Forge result never entered terminal state")
@@ -531,23 +529,22 @@ def format_report(context: ForgeContext, result: ForgeResult) -> str:
             error_buffer.append(line)
     report_output = "\n".join(report_lines)
     error_output = "\n".join(error_buffer)
-    debugging_appendix = "Trailing Log Lines:\n{}\nDebugging output:\n{}".format(
-        error_output,
-        result.debugging_output
-    )
+    debugging_appendix = f"Trailing Log Lines:\n{error_output}\nDebugging output:\n{result.debugging_output}"
+
     if not report_lines:
-        return "Forge test runner terminated:\n{}".format(debugging_appendix)
+        return f"Forge test runner terminated:\n{debugging_appendix}"
     report_text = None
     try:
         report_text = json.loads(report_output).get("text")
     except Exception as e:
-        return "Forge report malformed: {}\n{}\n{}".format(e, repr(report_output), debugging_appendix)
+        return f"Forge report malformed: {e}\n{repr(report_output)}\n{debugging_appendix}"
+
     if not report_text:
-        return "Forge report text empty. See test runner output.\n{}".format(debugging_appendix)
-    else:
-        if result.state == ForgeState.FAIL:
-            return "{}\n{}".format(report_text, debugging_appendix)
-        return report_text
+        return f"Forge report text empty. See test runner output.\n{debugging_appendix}"
+
+    if result.state == ForgeState.FAIL:
+        return f"{report_text}\n{debugging_appendix}"
+    return report_text
 
 
 def get_validator_logs_link(
@@ -795,11 +792,12 @@ class K8sForgeRunner(ForgeRunner):
             AWS_ACCOUNT_NUM=context.aws_account_num,
             AWS_REGION=context.aws_region,
             FORGE_NAMESPACE=context.forge_namespace,
-            REUSE_ARGS=context.reuse_args if context.reuse_args else "",
-            KEEP_ARGS=context.keep_args if context.keep_args else "",
-            ENABLE_HAPROXY_ARGS=context.haproxy_args if context.haproxy_args else "",
+            REUSE_ARGS=context.reuse_args or "",
+            KEEP_ARGS=context.keep_args or "",
+            ENABLE_HAPROXY_ARGS=context.haproxy_args or "",
             FORGE_TRIGGERED_BY=forge_triggered_by,
         )
+
 
         with ForgeResult.with_context(context) as forge_result:
             specfile = context.filesystem.mkstemp()
@@ -946,8 +944,7 @@ def find_recent_images(
     i = 0
     j = 0
     for revision in git.last(commit_threshold):
-        exists = image_exists(shell, revision)
-        if exists:
+        if exists := image_exists(shell, revision):
             i += 1
             yield revision
         if i >= num_images:
@@ -971,24 +968,18 @@ def sanitize_forge_namespace(forge_namespace: str) -> str:
     for i, c in enumerate(forge_namespace):
         if i >= max_length:
             break
-        if c.isalnum():
-            sanitized_namespace += c
-        else:
-            sanitized_namespace += "-"
+        sanitized_namespace += c if c.isalnum() else "-"
     return sanitized_namespace
 
 
 @main.command()
-# output files
 @envoption("FORGE_OUTPUT")
 @envoption("FORGE_REPORT")
 @envoption("FORGE_PRE_COMMENT")
 @envoption("FORGE_COMMENT")
-# cluster auth
 @envoption("AWS_REGION", "us-west-2")
 @envoption("AWS_TOKEN_EXPIRATION")
 @envoption("AWS_AUTH_SCRIPT")
-# forge test runner customization
 @envoption("FORGE_RUNNER_MODE", "k8s")
 @envoption("FORGE_CLUSTER_NAME")
 @envoption("FORGE_NAMESPACE_KEEP")
@@ -1067,11 +1058,10 @@ def test(
 
     # Perform cluster selection
     current_cluster = None
-    if not forge_cluster_name:
-        if interactive:
-            current_cluster = get_current_cluster_name(shell)
-            if click.confirm(f"Automatically using current cluster {current_cluster}"):
-                forge_cluster_name = current_cluster
+    if not forge_cluster_name and interactive:
+        current_cluster = get_current_cluster_name(shell)
+        if click.confirm(f"Automatically using current cluster {current_cluster}"):
+            forge_cluster_name = current_cluster
 
     if not forge_cluster_name or balance_clusters:
         cluster_names = list_eks_clusters(shell)
@@ -1100,13 +1090,10 @@ def test(
     if forge_test_suite == "compat":
         # This might not work as intended because we dont know if that revision passed forge
         image_tag = image_tag or second_latest_image
-        forge_image_tag = forge_image_tag or default_latest_image
-        upgrade_image_tag = upgrade_image_tag or default_latest_image
     else:
         image_tag = image_tag or default_latest_image
-        forge_image_tag = forge_image_tag or default_latest_image
-        upgrade_image_tag = upgrade_image_tag or default_latest_image
-
+    forge_image_tag = forge_image_tag or default_latest_image
+    upgrade_image_tag = upgrade_image_tag or default_latest_image
     assert image_tag is not None, "Image tag is required"
     assert forge_image_tag is not None, "Forge image tag is required"
     assert upgrade_image_tag is not None, "Upgrade image tag is required"
@@ -1156,7 +1143,7 @@ def test(
     try:
         forge_runner = forge_runner_mapping[forge_runner_mode]()
         result = forge_runner.run(context)
-        
+
         print(result.format())
         if not result.succeeded():
             print(result.debugging_output)

@@ -37,24 +37,24 @@ class TypeTag:
     def __repr__(self):
         return self.__str__()
 
-    def deserialize(deserializer: Deserializer) -> TypeTag:
-        variant = deserializer.uleb128()
+    def deserialize(self) -> TypeTag:
+        variant = self.uleb128()
         if variant == TypeTag.BOOL:
-            return TypeTag(BoolTag.deserialize(deserializer))
+            return TypeTag(BoolTag.deserialize(self))
         elif variant == TypeTag.U8:
-            return TypeTag(U8Tag.deserialize(deserializer))
+            return TypeTag(U8Tag.deserialize(self))
         elif variant == TypeTag.U64:
-            return TypeTag(U64Tag.deserialize(deserializer))
+            return TypeTag(U64Tag.deserialize(self))
         elif variant == TypeTag.U128:
-            return TypeTag(U128Tag.deserialize(deserializer))
+            return TypeTag(U128Tag.deserialize(self))
         elif variant == TypeTag.ACCOUNT_ADDRESS:
-            return TypeTag(AccountAddressTag.deserialize(deserializer))
+            return TypeTag(AccountAddressTag.deserialize(self))
         elif variant == TypeTag.SIGNER:
             raise NotImplementedError
         elif variant == TypeTag.VECTOR:
             raise NotImplementedError
         elif variant == TypeTag.STRUCT:
-            return TypeTag(StructTag.deserialize(deserializer))
+            return TypeTag(StructTag.deserialize(self))
         raise NotImplementedError
 
     def serialize(self, serializer: Serializer):
@@ -77,8 +77,8 @@ class BoolTag:
     def variant(self):
         return TypeTag.BOOL
 
-    def deserialize(deserializer: Deserializer) -> Tag:
-        return Tag(deserializer.bool())
+    def deserialize(self) -> Tag:
+        return Tag(self.bool())
 
     def serialize(self, serializer: Serializer):
         serializer.bool(self.value)
@@ -99,8 +99,8 @@ class U8Tag:
     def variant(self):
         return TypeTag.U8
 
-    def deserialize(deserializer: Deserializer) -> Tag:
-        return Tag(deserializer.u8())
+    def deserialize(self) -> Tag:
+        return Tag(self.u8())
 
     def serialize(self, serializer: Serializer):
         serializer.u8(self.value)
@@ -121,8 +121,8 @@ class U64Tag:
     def variant(self):
         return TypeTag.U64
 
-    def deserialize(deserializer: Deserializer) -> Tag:
-        return Tag(deserializer.u64())
+    def deserialize(self) -> Tag:
+        return Tag(self.u64())
 
     def serialize(self, serializer: Serializer):
         serializer.u64(self.value)
@@ -143,8 +143,8 @@ class U128Tag:
     def variant(self):
         return TypeTag.U128
 
-    def deserialize(deserializer: Deserializer) -> Tag:
-        return Tag(deserializer.u128())
+    def deserialize(self) -> Tag:
+        return Tag(self.u128())
 
     def serialize(self, serializer: Serializer):
         serializer.u128(self.value)
@@ -165,8 +165,8 @@ class AccountAddressTag:
     def variant(self):
         return TypeTag.ACCOUNT_ADDRESS
 
-    def deserialize(deserializer: Deserializer) -> Tag:
-        return AccountAddressTag(deserializer.struct(AccountAddress))
+    def deserialize(self) -> Tag:
+        return AccountAddressTag(self.struct(AccountAddress))
 
     def serialize(self, serializer: Serializer):
         serializer.struct(self.value)
@@ -201,13 +201,10 @@ class StructTag:
             value += ">"
         return value
 
-    def from_str(type_tag: str) -> StructTag:
+    def from_str(self) -> StructTag:
         name = ""
-        index = 0
-        while index < len(type_tag):
-            letter = type_tag[index]
-            index += 1
-
+        for index in range(len(self)):
+            letter = self[index]
             if letter == "<":
                 raise NotImplementedError
             else:
@@ -219,11 +216,11 @@ class StructTag:
     def variant(self):
         return TypeTag.STRUCT
 
-    def deserialize(deserializer: Deserializer) -> StructTag:
-        address = deserializer.struct(AccountAddress)
-        module = deserializer.str()
-        name = deserializer.str()
-        type_args = deserializer.sequence(TypeTag.deserialize)
+    def deserialize(self) -> StructTag:
+        address = self.struct(AccountAddress)
+        module = self.str()
+        name = self.str()
+        type_args = self.sequence(TypeTag.deserialize)
         return StructTag(address, module, name, type_args)
 
     def serialize(self, serializer: Serializer):

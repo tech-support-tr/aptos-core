@@ -28,11 +28,11 @@ class AccountAddress:
     def hex(self) -> str:
         return f"0x{self.address.hex()}"
 
-    def from_hex(address: str) -> AccountAddress:
-        addr = address
+    def from_hex(self) -> AccountAddress:
+        addr = self
 
-        if address[0:2] == "0x":
-            addr = address[2:]
+        if self[:2] == "0x":
+            addr = self[2:]
 
         if len(addr) < AccountAddress.LENGTH * 2:
             pad = "0" * (AccountAddress.LENGTH * 2 - len(addr))
@@ -40,13 +40,13 @@ class AccountAddress:
 
         return AccountAddress(bytes.fromhex(addr))
 
-    def from_key(key: ed25519.PublicKey) -> AccountAddress:
+    def from_key(self) -> AccountAddress:
         hasher = hashlib.sha3_256()
-        hasher.update(key.key.encode() + b"\x00")
+        hasher.update(self.key.encode() + b"\x00")
         return AccountAddress(hasher.digest())
 
-    def deserialize(deserializer: Deserializer) -> AccountAddress:
-        return AccountAddress(deserializer.fixed_bytes(AccountAddress.LENGTH))
+    def deserialize(self) -> AccountAddress:
+        return AccountAddress(self.fixed_bytes(AccountAddress.LENGTH))
 
     def serialize(self, serializer: Serializer):
         serializer.fixed_bytes(self.address)

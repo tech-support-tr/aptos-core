@@ -93,15 +93,15 @@ class RawTransaction:
     def verify(self, key: ed25519.PublicKey, signature: ed25519.Signature) -> bool:
         return key.verify(self.keyed(), signature)
 
-    def deserialize(deserializer: Deserializer) -> RawTransaction:
+    def deserialize(self) -> RawTransaction:
         return RawTransaction(
-            AccountAddress.deserialize(deserializer),
-            deserializer.u64(),
-            TransactionPayload.deserialize(deserializer),
-            deserializer.u64(),
-            deserializer.u64(),
-            deserializer.u64(),
-            deserializer.u8(),
+            AccountAddress.deserialize(self),
+            self.u64(),
+            TransactionPayload.deserialize(self),
+            self.u64(),
+            self.u64(),
+            self.u64(),
+            self.u8(),
         )
 
     def serialize(self, serializer: Serializer):
@@ -175,15 +175,15 @@ class TransactionPayload:
     def __str__(self) -> str:
         return self.value.__str__()
 
-    def deserialize(deserializer: Deserializer) -> TransactionPayload:
-        variant = deserializer.uleb128()
+    def deserialize(self) -> TransactionPayload:
+        variant = self.uleb128()
 
         if variant == TransactionPayload.SCRIPT:
-            payload = Script.deserialize(deserializer)
+            payload = Script.deserialize(self)
         elif variant == TransactionPayload.MODULE_BUNDLE:
-            payload = ModuleBundle.deserialize(deserializer)
+            payload = ModuleBundle.deserialize(self)
         elif variant == TransactionPayload.SCRIPT_FUNCTION:
-            payload = EntryFunction.deserialize(deserializer)
+            payload = EntryFunction.deserialize(self)
         else:
             raise Exception("Invalid type")
 
@@ -198,7 +198,7 @@ class ModuleBundle:
     def __init__(self):
         raise NotImplementedError
 
-    def deserialize(deserializer: Deserializer) -> ModuleBundle:
+    def deserialize(self) -> ModuleBundle:
         raise NotImplementedError
 
     def serialize(self, serializer: Serializer):
@@ -209,7 +209,7 @@ class Script:
     def __init__(self):
         raise NotImplementedError
 
-    def deserialize(deserializer: Deserializer) -> Script:
+    def deserialize(self) -> Script:
         raise NotImplementedError
 
     def serialize(self, serializer: Serializer):
@@ -241,24 +241,17 @@ class EntryFunction:
     def __str__(self):
         return f"{self.module}::{self.function}::<{self.ty_args}>({self.args})"
 
-    def natural(
-        module: str,
-        function: str,
-        ty_args: List[TypeTag],
-        args: List[TransactionArgument],
-    ) -> EntryFunction:
-        module_id = ModuleId.from_str(module)
+    def natural(self, function: str, ty_args: List[TypeTag], args: List[TransactionArgument]) -> EntryFunction:
+        module_id = ModuleId.from_str(self)
 
-        byte_args = []
-        for arg in args:
-            byte_args.append(arg.encode())
+        byte_args = [arg.encode() for arg in args]
         return EntryFunction(module_id, function, ty_args, byte_args)
 
-    def deserialize(deserializer: Deserializer) -> EntryFunction:
-        module = ModuleId.deserialize(deserializer)
-        function = deserializer.str()
-        ty_args = deserializer.sequence(TypeTag.deserialize)
-        args = deserializer.sequence(Deserializer.bytes)
+    def deserialize(self) -> EntryFunction:
+        module = ModuleId.deserialize(self)
+        function = self.str()
+        ty_args = self.sequence(TypeTag.deserialize)
+        args = self.sequence(Deserializer.bytes)
         return EntryFunction(module, function, ty_args, args)
 
     def serialize(self, serializer: Serializer):
@@ -282,13 +275,13 @@ class ModuleId:
     def __str__(self) -> str:
         return f"{self.address}::{self.name}"
 
-    def from_str(module_id: str) -> ModuleId:
-        split = module_id.split("::")
+    def from_str(self) -> ModuleId:
+        split = self.split("::")
         return ModuleId(AccountAddress.from_hex(split[0]), split[1])
 
-    def deserialize(deserializer: Deserializer) -> ModuleId:
-        addr = AccountAddress.deserialize(deserializer)
-        name = deserializer.str()
+    def deserialize(self) -> ModuleId:
+        addr = AccountAddress.deserialize(self)
+        name = self.str()
         return ModuleId(addr, name)
 
     def serialize(self, serializer: Serializer):
@@ -346,9 +339,9 @@ class SignedTransaction:
             keyed = self.transaction.keyed()
         return self.authenticator.verify(keyed)
 
-    def deserialize(deserializer: Deserializer) -> SignedTransaction:
-        transaction = RawTransaction.deserialize(deserializer)
-        authenticator = Authenticator.deserialize(deserializer)
+    def deserialize(self) -> SignedTransaction:
+        transaction = RawTransaction.deserialize(self)
+        authenticator = Authenticator.deserialize(self)
         return SignedTransaction(transaction, authenticator)
 
     def serialize(self, serializer: Serializer):
